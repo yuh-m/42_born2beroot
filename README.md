@@ -1,6 +1,6 @@
 ## 42 Born2beRoot
 
-###Goal: 
+### Goal: 
 Project aimed to learn more about system administration, and Linux OS
 ### 1. Setting Virtual Machine ISO and boot on VM
 ##### 1.1.Download Oracle Virtual Box 
@@ -22,7 +22,7 @@ Project aimed to learn more about system administration, and Linux OS
     ![Disk settings](./img/disk_settings.PNG)
     - On Network - set to "Bridged Adapter", so it can have internet access
     https://linuxhint.com/use-virtualbox-bridged-adapter/
-    
+</br>
 ##### 1.2. Boot setup
 ##### 1.2.1. Set hostname and domain namme
 - Difference between __host name__ and __domain name__ 
@@ -71,29 +71,43 @@ Project aimed to learn more about system administration, and Linux OS
 
 </br>
 </br>
+### 2. Setting SSH
+ - a
+</br>
+### 3. Setting Firewall
+  - a
+</br>
+### 4. User settings
+  - a
+  
+</br>
+#### 4.1. Setting sudo
+- Sudo is a program to allow a sysadmin to give limited access to users and log root activity
+- https://www.sudo.ws/about/intro/
 
-### 2. Setting sudo
+- as root run apt install sudo
 
-
-### 3. Setting SSH
-### 4. Setting UFW
- - Connection 
-### 5. User Management
-### 6. Monitor / CRON jobs
-### 7. BONUS - Setting wordpress
+#### 4.2. User Management
+ - a
+</br>
+### 5. Monitor / CRON jobs
+ - a
+</br>
+### 6. BONUS - Setting wordpress
+ - a
 - Framework required 
-    ##### 7.1. Setting lighttpd 
-    ##### 7.2. Setting MariaDB
-    ##### 7.3. Setting PHP
-    ##### 7.4. Wordpress
-    ##### 7.5. Setting FTP 
+    ##### 6.1. Setting lighttpd 
+    ##### 6.2. Setting MariaDB
+    ##### 6.3. Setting PHP
+    ##### 6.4. Wordpress
+    ##### 6.5. Setting FTP 
     - link - How to install wordpress using lighttpd
     https://www.atlantic.net/dedicated-server-hosting/how-to-install-wordpress-with-lighttpd-web-server-on-ubuntu-20-04/
   -  https://geekrewind.com/install-wordpress-on-ubuntu-16-04-lts-with-lighttpd-mariadb-and-php-7-1-support/
  
-### 8. Miscelanous information learned throught the project
-#### 8.1. Difference between Linux distros (Debian vc CentOS)
-#### 8.2. 
+### 7. Miscelanous information learned throught the project
+#### 7.1. Difference between Linux distros (Debian vc CentOS)
+#### 7.2. 
 
 ### - Sources - 
 
