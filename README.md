@@ -2,6 +2,14 @@
 
 ### Goal: 
 Project aimed to learn more about system administration, and Linux OS
+The main topics on this project covers:
+ 1. Booting VMs
+ 2. LVM partitions | Filesytem Hierarchy Standard 
+ 3. SSH services
+ 4. Firewall settings
+ 5. User settings | groups configuration
+ 6. CRON jobs
+
 ### 1. Setting Virtual Machine ISO and boot on VM
 ##### 1.1.Download Oracle Virtual Box 
 - ISO of DebianOS: https://www.debian.org/download
@@ -30,17 +38,23 @@ Project aimed to learn more about system administration, and Linux OS
   - domain name is the address used by users to access a website. One domain can have several hosts (machines) underneath.
   http://www.differencebetween.net/technology/difference-between-hostname-and-domain-name/
 
-##### 1.2.2. Partition Disk - understand LVM use, and File System Hierarchy
+#### 2. Partition Disk - understand LVM use, and File System Hierarchy
 
 - __LVM__ (Logical Volume Managment) - There're tools that helps with managing how the pyshical disk space will be allocated like gparted, but LVM creates a layer which gives the advantage and flexibility on how to split the memory from the pyshical disks (Volume Groups - groups of pyshical disks), and assign blocks of memory that will be treated as different mounts / partitions (logical volumes).
   - The advange by having this layer it enables to change the partitions currently in use (in many other tools it's necessary boot the OS from another disk, or format the disk in case you want to create new partition later. In VLM it doesn't have this limitation), and also one single partition can be made of several blocks of memory apart within them.
   - Biggest advantage of LVM is the ability to take __snapshots__ of the existing Logical Volume, having a backup of the state of the machine without shutting the system down. 
-  - What's LVM: https://wiki.ubuntu.com/Lvm
+  - What's LVM: 
+    - https://wiki.ubuntu.com/Lvm
   - How to use LVM:
+    - https://access.redhat.com/documentation/pt-br/red_hat_enterprise_linux/6/html/logical_volume_manager_administration/index
     - https://www.howtogeek.com/howto/40702/how-to-manage-and-use-lvm-logical-volume-management-in-ubuntu/
     - https://www.redhat.com/sysadmin/lvm-vs-partitioning
+  - How to use snapshots in VM VirtualBox:
+    - https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/snapshots.html
+  - Other tools for using snapshots:
+    - https://github.com/linuxmint/timeshift
 </br>
-- __Linux File System Structure__
+- __Linux Filesytem Hierarchy Standard__
   - Common partitions when setting Linux
 ![file sytem hierarchy](./img/file_system_hierarchy.PNG)
 
@@ -59,14 +73,14 @@ Project aimed to learn more about system administration, and Linux OS
        - sda 1 to 4 it could be considered primary partitions, and sda 5 and higher on are extended partitions. 
     - https://www.wikiwand.com/en/Disk_partitioning
     - https://askubuntu.com/a/1207738
-  - Difference creating the disk at beggining or end of avaiable space - Didn't find any explanation on where it could be better to create at the end, but emperical tests suggests it might have a poore performance on the disk. 
+  - Difference creating the disk at beggining or end of avaiable space - Didn't find any explanation on where it could be better to create at the end, but emperical tests suggests it might have a poor performance on the disk. 
     - https://askubuntu.com/questions/56883/is-having-the-swap-partition-at-the-beginning-better-than-at-the-end
   - Difference on ext4, ext3 and ext2:
     - types of filesystems created for Linux.
     - ext3 and ext4 enables journaling (able to log changes in the  machine)
     - https://www.learnitguide.net/2016/08/difference-between-ext2-ext3-and-ext4.html
 </br>
-- __Expected result__ -  After the manual setup the inital configuration of the VM, the hard disk should have the following structure [tip - take a snapshot of the state of the machine, and copy of the VM to not having to set this up again]
+- __Expected result__ -  After the manual setup the inital configuration of the VM, the hard disk should have the following structure [tip - take a snapshot of the state of the machine, and copy of the VM to not having to set this up again before finishing the configuration of the VM]
 ![Bonus](./img/bonus_partitions.PNG)
 
 </br>
