@@ -16,8 +16,8 @@ The main topics on this project covers:
 - Oracle VM: https://www.oracle.com/br/virtualization/technologies/vm/downloads/virtualbox-downloads.html  
 </br>
 - Creating a new VM:
-  - 2048MB RAM
-  - Set the HD to 30.8G (Implementing the Bonus)
+  - 2048MB RAM (The default is 1024MB, but if your computer has enough RAM you can dedicate more so it can be faster)
+  - Set the HD to 30.8G (Implementing the Bonus, otherwise it would be set 8GB)
     - Storage on physical disk can be: 
        - Dynamically allocated 
          - Pros - it can grow in size
@@ -32,16 +32,18 @@ The main topics on this project covers:
     https://linuxhint.com/use-virtualbox-bridged-adapter/
 </br>
 ##### 1.2. Boot setup
-##### 1.2.1. Set hostname and domain namme
+###### 1.2.1. Set hostname and domain namme
 - Difference between __host name__ and __domain name__ 
+  - On the project required the hostname to be my login ending with 42
   - hostname is the computer name (human-readable format), and they can also serve as domain name.
   - domain name is the address used by users to access a website. One domain can have several hosts (machines) underneath.
   http://www.differencebetween.net/technology/difference-between-hostname-and-domain-name/
+  - to change hostname: https://linuxhint.com/change-hostname-debian/
 
 #### 2. Partition Disk - understand LVM use, and File System Hierarchy
 
-- __LVM__ (Logical Volume Managment) - There're tools that helps with managing how the pyshical disk space will be allocated like gparted, but LVM creates a layer which gives the advantage and flexibility on how to split the memory from the pyshical disks (Volume Groups - groups of pyshical disks), and assign blocks of memory that will be treated as different mounts / partitions (logical volumes).
-  - The advange by having this layer it enables to change the partitions currently in use (in many other tools it's necessary boot the OS from another disk, or format the disk in case you want to create new partition later. In VLM it doesn't have this limitation), and also one single partition can be made of several blocks of memory apart within them.
+- __LVM__ (Logical Volume Managment) - There're tools that helps with managing how the pyshical disk space will be allocated like gparted. LVM creates a layer which gives the advantage and flexibility on how to split the memory from the pyshical disks (__Volume Groups__ - groups of __pyshical volumes__), and assign blocks of memory that will be treated as different mounts / partitions (__logical volumes__).
+  - The advange by having this layer it enables to change the partitions currently in use (in many other tools it's necessary boot the OS from another disk, or format the disk in case you want to create new partition later. In VLM it doesn't have this limitation), and also one single partition can be made of several blocks of memory that doesn't need to be next to each other.
   - Biggest advantage of LVM is the ability to take __snapshots__ of the existing Logical Volume, having a backup of the state of the machine without shutting the system down. 
   - What's LVM: 
     - https://wiki.ubuntu.com/Lvm
@@ -68,11 +70,11 @@ The main topics on this project covers:
    - what is the MAJ:MIN column - https://www.oreilly.com/library/view/linux-device-drivers/0596000081/ch03s02.html 
 </br>
 - Miscelaneous information:
-  - Difference between Primary and Logical Partition -
+  - Difference between Primary and Logical Partition
     - It's more a legacy from how old OS were set (Mainly DOS and Windows) where it could have only 4 partitions to load an operational system. Where on Linux it's possible to have multiple partitions one for each File system (reducing potential data loss)
        - sda 1 to 4 it could be considered primary partitions, and sda 5 and higher on are extended partitions. 
-    - https://www.wikiwand.com/en/Disk_partitioning
-    - https://askubuntu.com/a/1207738
+      - https://www.wikiwand.com/en/Disk_partitioning
+      - https://askubuntu.com/a/1207738
   - Difference creating the disk at beggining or end of avaiable space - Didn't find any explanation on where it could be better to create at the end, but emperical tests suggests it might have a poor performance on the disk. 
     - https://askubuntu.com/questions/56883/is-having-the-swap-partition-at-the-beginning-better-than-at-the-end
   - Difference on ext4, ext3 and ext2:
@@ -80,17 +82,34 @@ The main topics on this project covers:
     - ext3 and ext4 enables journaling (able to log changes in the  machine)
     - https://www.learnitguide.net/2016/08/difference-between-ext2-ext3-and-ext4.html
 </br>
-- __Expected result__ -  After the manual setup the inital configuration of the VM, the hard disk should have the following structure [tip - take a snapshot of the state of the machine, and copy of the VM to not having to set this up again before finishing the configuration of the VM]
+- __Expected result__ -  After the manual setup the inital configuration of the VM, the hard disk should have the following structure [tip - take a snapshot of the state of the machine, or a copy of the VM to not need to go over this step again in case you end up doing something that doesn't how to fix or think in restarting the VM]
 ![Bonus](./img/bonus_partitions.PNG)
 
 </br>
 </br>
-### 2. Setting SSH
- - a
+### 2. Setting SSH (Secure Socket Shell)
+ - It's a network protocol that enables a secure way to access a machine over an unsecured network. It works by providing a strong password, and public key authentication method, creating encrypted data communication on an open network.
+ https://www.techtarget.com/searchsecurity/definition/Secure-Shell
+ - As part of the project. Set config file `/etc/ssh/sshd_config` to:
+   - Enable port 4242 (Disable port 22 - default port on installation)
+   - Prohibit root login as authentication method
+   - Enable pubkey Authentication
+
+ - After restarting the SSH check if the only socket available, otherwise map you network interface, ip adress, netmask and gateway. At least on my case it was being cause by having DHCP enabled on default and setting a static ip
+  - https://www.efficientip.com/what-is-dhcp-and-why-is-it-important/
+  - https://brunopontes.com.br/ensino/semestres/2018.1/soredes/guia_pratico_configuracao_rede_debian
+
 </br>
 ### 3. Setting Firewall
-  - a
+  - Installing UFW (Uncomplicated Firewall), it works as a firewall manager. Monitoring the information and data traffic of the machine and connected networks
+  - As part of the project it should allow connection only through port 4242.
+  - sources:
+  - https://wiki.debian.org/Uncomplicated%20Firewall%20%28ufw%29
+  - https://www.vultr.com/docs/how-to-configure-uncomplicated-firewall-ufw-on-ubuntu-20-04/
+
 </br>
+
+
 ### 4. User settings
   - a
   
@@ -121,8 +140,29 @@ The main topics on this project covers:
  
 ### 7. Miscelanous information learned throught the project
 #### 7.1. Difference between Linux distros (Debian vc CentOS)
-#### 7.2. 
+ - Debian is a open source
+ - CentOS is managed by 
+#### 7.2. Difference between _aptitude_ and _apt_
+ - __apt-get__ is a lower level package management
+ - __apt__ launched by Debian in ~2014 it's a higher level management package, which also takes in account apt-cache. 
+ - __aptitude__ is a higher level managament package and has a graphical interface as well, and also handles functionatities of apt-mark and apt-cache. And also deal with dependencies better thant apt-get.
+ 
+  - https://www.tecmint.com/difference-between-apt-and-aptitude/
+  - Basic intro on apt- https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/
 
+#### 7.3. Difference between _SELinux_ and _AppArmor_
+
+#### 7.4 What is TCP, UDP and sockets
+ - https://medium.com/fantageek/understanding-socket-and-port-in-tcp-2213dc2e9b0c
+ - https://stackoverflow.com/a/152863/16518944
+
+ - https://sectigostore.com/blog/tcp-vs-udp-whats-the-difference/#:~:text=UDP%20(User%20Datagram%20Protocol),sometimes%20called%20packets%20as%20well).
+
+
+#### Coding editor on command line
+ - Since on this project all setup needs to be done on command line. I opted for vim as text editor
+- Ubuntu already comes with vi already installed, but doesn't have many features that has on vim. 
+ - https://vimsheet.com/
 ### - Sources - 
 
 Extra material
