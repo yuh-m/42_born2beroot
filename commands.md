@@ -50,11 +50,11 @@ To check the machine connection state
 Edit the file `/etc/network/interfaces`
 On the `iface enp0s3 inet dhcp` change to 
 `iface enp0s3 inet static`
-`   address`
-`   netmask`
-`   gateway`
+`   address xxx.xxx.xxx.x`
+`   netmask xxxx.xxxx.xxx.xx`
+`   gateway xxx.xxx.xxx.xx`
 
-### 3 Install UFW (Uncomplicated Firewall)
+### 3. Install UFW (Uncomplicated Firewall)
 `apt install ufw`
 `ufw enable`
 `ufw status verbose`
@@ -65,7 +65,51 @@ On the `iface enp0s3 inet dhcp` change to
 `ufw status numbered`
 `ufw delete <rule-number> `
 
-    More commands
-- https://wiki.debian.org/Uncomplicated%20Firewall%20%28ufw%29
-### 7 Install vim
- `sudo apt install vim`
+### 4.User settings
+#### 4.1 Sudo
+ `apt install sudo`
+ `sudo --version`
+
+ Add user name to sudo group
+ `add <username> sudo`
+
+ Create new user
+ `sudo adduser <username>`
+
+ To see users that belong to group sudo
+ `getent group sudo`
+
+### 4.1.2 Connecting user via SSH
+ To get server ip 
+ `ip addr show`
+ On other machine: 
+ if on linux 
+ `ssh <server-user>@<server ip> -p <ssh-port>`
+ on windows need to install F
+To exit connection
+`logout`
+`exit`
+
+From this point on the commands I typed is connected on the server trough a user in the sudo user group
+#### 4.1.3 Configuring sudo policies 
+Create a path to save sudo logs
+`sudo mkdir /var/log/sudo`
+`sudo vim /etc/sudoers`
+To use vim on visudo
+
+`sudo visudo -f /etc/sudoers.d/sudoers-specs` 
+Commands inserted on file 
+`Defaults editor=/usr/bin/vim`
+`Defaults passwd_tries=3`
+`Defaults logfile=/var/log/sudo/sudo.log`
+`Defaults requiretty`
+`Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"`
+
+To check all users on system 
+`less /etc/passwd`
+`
+To check all groups and users on system
+`less /etc/group
+### 7. others
+ - vim installation
+   `sudo apt install vim`

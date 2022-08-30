@@ -7,7 +7,7 @@ The main topics on this project covers:
  2. LVM partitions | Filesytem Hierarchy Standard 
  3. SSH services
  4. Firewall settings
- 5. User settings | groups configuration
+ 5. User settings | groups configuration |password policies
  6. CRON jobs
 
 ### 1. Setting Virtual Machine ISO and boot on VM
@@ -95,7 +95,7 @@ The main topics on this project covers:
    - Prohibit root login as authentication method
    - Enable pubkey Authentication
 
- - After restarting the SSH check if the only socket available, otherwise map you network interface, ip adress, netmask and gateway. At least on my case it was being cause by having DHCP enabled on default and setting a static ip
+ - After restarting the SSH check if the port 4242 is the only one in use. otherwise map you network interface, ip adress, netmask and gateway. At least on my case it was being cause by having DHCP enabled on default, and the solution was setting a static ip to that port 
   - https://www.efficientip.com/what-is-dhcp-and-why-is-it-important/
   - https://brunopontes.com.br/ensino/semestres/2018.1/soredes/guia_pratico_configuracao_rede_debian
 
@@ -111,14 +111,31 @@ The main topics on this project covers:
 
 
 ### 4. User settings
-  - a
+ - The requirements of this project are:
+ - 4.1. Configure sudo group and policies
+ - 4.2. Create and configure new groups
+ - 4.3.Create and configure users - setting password policies
+ 
+
   
 </br>
-#### 4.1. Setting sudo
-- Sudo is a program to allow a sysadmin to give limited access to users and log root activity
-- https://www.sudo.ws/about/intro/
 
-- as root run apt install sudo
+#### 4.1. Setting sudo
+- Sudo is a program to allow a sysadmin to give limited access to users and log root activity. 
+- Till now all the project was using the __root__ user, from now on the assigned user on sudo group can and run commands by using the prefix `sudo`, and it's possible to finish the configuration of a machine in a remote local.
+</br>
+- https://www.sudo.ws/about/intro/
+- https://man7.org/linux/man-pages/man8/sudo.8.html
+- __Configure policies:__ 
+  - Create a folder to keep sudo log when enabling on the policies
+  - To set sudo policies and following best practices. Instead of editing the /etc/sudoers. The local changes were in the `/etc/sudoers/.d` using visudo (it checks for any misspelling before saving)
+  - the path `/etc/sudoers/.d` is already included in the `/etc/sudoers` as default
+  - requiretty means it can only runs sudo commands on logged-in terminal session.
+    - https://stackoverflow.com/a/68008345/16518944
+  - secure_path - meant to resctrict which paths and in which order when running a executable with sudo    
+    - https://askubuntu.com/a/924048
+  </br>
+  - https://linux.die.net/man/5/sudoers
 
 #### 4.2. User Management
  - a
@@ -151,6 +168,10 @@ The main topics on this project covers:
   - Basic intro on apt- https://www.tecmint.com/useful-basic-commands-of-apt-get-and-apt-cache-for-package-management/
 
 #### 7.3. Difference between _SELinux_ and _AppArmor_
+  - AppArmor is a Mandatory Access Control(MAC) sytem which is a kernel Linux Security Model (LSM), limitating what each program can do or consume resources. 
+  - Differences - AppArmor is a bit more simple than SElinux, such as not being possible to have a Multi-Level-Security (MLS) and Multi-Category-Security (MCS), not being possible to keep separation between containers.
+  - https://wiki.ubuntu.com/AppArmor
+  - https://www.redhat.com/sysadmin/apparmor-selinux-isolation
 
 #### 7.4 What is TCP, UDP and sockets
  - https://medium.com/fantageek/understanding-socket-and-port-in-tcp-2213dc2e9b0c
@@ -158,11 +179,13 @@ The main topics on this project covers:
 
  - https://sectigostore.com/blog/tcp-vs-udp-whats-the-difference/#:~:text=UDP%20(User%20Datagram%20Protocol),sometimes%20called%20packets%20as%20well).
 
-
+### 7.5 What is tty (Teletypewirter)
+ - Basically it ensures it's a kernel where the inputs are done by a person
+ - https://itsfoss.com/what-is-tty-in-linux/
 #### Coding editor on command line
  - Since on this project all setup needs to be done on command line. I opted for vim as text editor
-- Ubuntu already comes with vi already installed, but doesn't have many features that has on vim. 
- - https://vimsheet.com/
+- Ubuntu already comes with vi already installed, but doesn't have many features that has on vim. (highlight text colors!)
+ - Cheatsheet - https://vimsheet.com/
 ### - Sources - 
 
 Extra material
