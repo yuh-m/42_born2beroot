@@ -82,34 +82,89 @@ On the `iface enp0s3 inet dhcp` change to
 ### 4.1.2 Connecting user via SSH
  To get server ip 
  `ip addr show`
+ `hostname -I`
  On other machine: 
  if on linux 
  `ssh <server-user>@<server ip> -p <ssh-port>`
- on windows need to install F
+ on windows need to install Ftty
 To exit connection
 `logout`
 `exit`
 
-From this point on the commands I typed is connected on the server trough a user in the sudo user group
+From this point on the commands I typed is connected on the server trough a user in the sudo user group, so when needed higher level of access it'll have sudo as prefix
 #### 4.1.3 Configuring sudo policies 
 Create a path to save sudo logs
 `sudo mkdir /var/log/sudo`
 `sudo vim /etc/sudoers`
-To use vim on visudo
 
+file changed
 `sudo visudo -f /etc/sudoers.d/sudoers-specs` 
+
 Commands inserted on file 
 `Defaults editor=/usr/bin/vim`
 `Defaults passwd_tries=3`
+`Defaults badpass_message="Incorrect Password"`
 `Defaults logfile=/var/log/sudo/sudo.log`
 `Defaults requiretty`
 `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"`
 
-To check all users on system 
-`less /etc/passwd`
-`
-To check all groups and users on system
-`less /etc/group
+### 4.2. Creating new users
+__Users__:
+To check all users on system  - `cat /etc/passwd`
+To add new user - `sudo adduser <username>` -l for username | -c for fullname | -g for group id
+To look for a specific user `getent passwd`
+To delete user - `userdel -r <username>`
+Rename user `usermod -l <login-name> <old-name>` -u to change by the UID
+
+</br>
+__Password settings__:
+
+Verify user password settings - `sudo chage -l <username>`
+Change expiracy password period `sudo chage -M <period-days> <username>`
+Change number of days to allow password modification `sudo chage -m <period-days> <username>`
+Receive warning before the password expires `chage -W <period> <username>`
+
+</br>
+To have strong password policies any of the two packages can be used, and both are similar
+
+- cracklib - it has more options on password configuration
+- pwquality - it fits the needs of the project, so I opted to use this one:
+`sudo apt install libpam-pwquality`
+ `sudo vim /etc/security/pwquality.conf`
+  - do the followings changes
+      - difok = 7
+      - minlen = 10
+      - dcredit = -1
+      - ucredit = -1
+      - maxrepeat = 3
+      - usercheck = 1
+      - retry = 3
+      - enforce_for_root
+
+To change password of a user `psswrd <username>`
+
+
+
+</br>
+
+__Groups__
+To check groups - `cat /etc/group`
+groups a user is in - `groups <username>`
+get only Group id  - `id -g <username>` 
+create group - `sudo groupadd user42`
+add user to group - `sudo gpasswd -a <user> <group>`
+delete user from group - `sudo gpasswd -d <user> <group>`
+delete group - `sudo groupdel <groupname>`
+
+</br>
+
+###5. Configure CRON jobs
+ 5.1. Shell script - all commands are on 
 ### 7. others
+ - Hostname
+   - to change 
+      -  `sudo hostnamectl set-hostname  <hostname>`
+      -  edit the alias connection in `sudo vim /etc/hosts`
+   - to show current host `hostnamectl` 
  - vim installation
    `sudo apt install vim`

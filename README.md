@@ -7,7 +7,7 @@ The main topics on this project covers:
  2. LVM partitions | Filesytem Hierarchy Standard 
  3. SSH services
  4. Firewall settings
- 5. User settings | groups configuration |password policies
+ 5. Sudo configuration | User settings | groups configuration |password policies
  6. CRON jobs
 
 ### 1. Setting Virtual Machine ISO and boot on VM
@@ -106,18 +106,16 @@ The main topics on this project covers:
   - sources:
   - https://wiki.debian.org/Uncomplicated%20Firewall%20%28ufw%29
   - https://www.vultr.com/docs/how-to-configure-uncomplicated-firewall-ufw-on-ubuntu-20-04/
-
+  - on systemctl it should be normal to have the status active(exited) - the program run when machine booted and have the presets saved then the system exit the ufw. So in case any changes are done in the ufw settings to have it apply to the machine it would require to boot or run again in the system.
+    - https://www.linuxquestions.org/questions/linux-security-4/difference-between-ufw-status-vs-systemctl-status-ufw-4175707244/
 </br>
-
 
 ### 4. User settings
  - The requirements of this project are:
- - 4.1. Configure sudo group and policies
+ - 4.1. Configure sudo group and access policies
  - 4.2. Create and configure new groups
- - 4.3.Create and configure users - setting password policies
+ - 4.3. Create and configure users - setting password policies
  
-
-  
 </br>
 
 #### 4.1. Setting sudo
@@ -127,7 +125,7 @@ The main topics on this project covers:
 - https://www.sudo.ws/about/intro/
 - https://man7.org/linux/man-pages/man8/sudo.8.html
 - __Configure policies:__ 
-  - Create a folder to keep sudo log when enabling on the policies
+  - Create `/var/log/sudo` folder to keep sudo log when enabling on the policies
   - To set sudo policies and following best practices. Instead of editing the /etc/sudoers. The local changes were in the `/etc/sudoers/.d` using visudo (it checks for any misspelling before saving)
   - the path `/etc/sudoers/.d` is already included in the `/etc/sudoers` as default
   - requiretty means it can only runs sudo commands on logged-in terminal session.
@@ -137,12 +135,71 @@ The main topics on this project covers:
   </br>
   - https://linux.die.net/man/5/sudoers
 
-#### 4.2. User Management
- - a
+#### 4.2. Creating new groups and assign users 
+ - List all users in machine `cat /etc/passwd`
+   - the columns are
+     - User name
+     - Encrypted password (x means the password is stored in the /etc/shadow file)
+     - User ID number
+     - User's group ID number
+     - Full Name 
+     - user home directory
+     - Login shell
+  - I didn't understand if the users needs to have the primary group as  user42, but this is how it's possible to change without messing up https://www.smarthomebeginner.com/safely-change-primary-group-group-in-linux
 </br>
+ - List all groups in machine `cat /etc/groups`
+    - columns are 
+      - group name
+      - password
+      - group id (gid)
+      - group list 
+</br>
+ - To manage users - 
+   - https://www.cyberciti.biz/faq/create-a-user-account-on-ubuntu-linux/
+ - To manage groups - 
+   - To mange users within groups - https://linux.die.net/man/1/gpasswd
+   - To create groups - https://linux.die.net/man/8/groupadd
+</br>
+#### 4.3. Password policies
+
+ - 4.3.1. Time related settings
+   - To apply these rules we use the command `chage` for existing users  and editing `/etc/login.defs` to apply for new users.
+     • Your password has to expire every 30 days.
+     • The minimum number of days allowed before the modification of a password will
+be set to 2.
+     • The user has to receive a warning message 7 days before their password expires.
+
+</br>
+
+ - 4.3.2. Password Strengh
+    - It should follow these policies. For this I optted to use 
+      - Your password must be at least 10 characters long. It must contain an uppercase letter, a lowercase letter, and a number. Also, it must not contain more than 3 consecutive identical characters.
+      - The password must not include the name of the user.
+      - The password must have at least 7 characters that are not part of the former password.
+
+    
 ### 5. Monitor / CRON jobs
- - a
+ - 5.1. Creating shell script that will need to run every 10 minutes
+    It should have these following information
+      - The architecture of your operating system and its kernel version.
+        - https://www.technologyuk.net/computing/computer-software/operating-systems/operating-system-architecture.shtml
+      - The number of physical processors.
+      - The number of virtual processors.
+      - The current available RAM on your server and its utilization rate as a percentage.
+      - The current available memory on your server and its utilization rate as a percentage.
+      -  The current utilization rate of your processors as a percentage.
+      -  The date and time of the last reboot.
+      -  Whether LVM is active or not.
+      -  The number of active connections.
+      -  The number of users using the server.
+      -  The IPv4 address of your server and its MAC (Media Access Control) address.
+      • The number of commands executed with the sudo program.
+    All the commands for this are on monitoring.sh file
+    For displaying the information `wall` was used, it works as broadcast system to all users logged in the server.
+  - 5.2. Install CRON
+  - 5.3. Manage with CRON tab
 </br>
+
 ### 6. BONUS - Setting wordpress
  - a
 - Framework required 
