@@ -179,7 +179,7 @@ be set to 2.
 
     
 ### 5. Monitor / CRON jobs
- - 5.1. Creating shell script that will need to run every 10 minutes
+ - 5.1. __Creating shell script that will need to run every 10 minutes__
     It should have these following information
       - The architecture of your operating system and its kernel version.
         - https://www.technologyuk.net/computing/computer-software/operating-systems/operating-system-architecture.shtml
@@ -196,9 +196,19 @@ be set to 2.
       • The number of commands executed with the sudo program.
     All the commands for this are on monitoring.sh file
     For displaying the information `wall` was used, it works as broadcast system to all users logged in the server.
-  - 5.2. Install CRON
-  - 5.3. Manage with CRON tab
+  - 5.2. __Manage with `crontab`__
+    - Variables on cron
+       add cron-variables.PNG
+    - To manage cron service:
+        - sudo systemctl enable cron.service
+        - sudo systemctl start cron.service
+        - sudo systemctl stop cron.service
+        - sudo systemctl restart cron.service
+        - sudo systemctl status cron.service
+    - https://www.cyberciti.biz/faq/linux-execute-cron-job-after-system-reboot/
+    - https://linux.die.net/man/5/crontab
 </br>
+
 
 ### 6. BONUS - Setting wordpress
  - a
