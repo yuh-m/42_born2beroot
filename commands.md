@@ -1,13 +1,13 @@
 ## Commands for setup the machine 
-### 2. Creating partitions 
-
-### 2.2. Snapshot of- 
+## 2. LVM - Creating partitions 
+It's possible to use lvmcreate
+### 2.1. Snapshot
 Create a snapshop - with the VM turned off 
 
 Retrieve the state of the machine
     shalsum <virtual disk>.vdi
 'a'
-### 2.3. General info after setup
+### 2.2. General info after setup
 For giving information of OS
 ` cat /etc/os-release `
 
@@ -19,8 +19,8 @@ otherwise
 
 ` /usr/sbin/ufw status `
 
-#
-### 2 SSH install 
+
+## 3 SSH install 
 
 `apt install open-ssh-server`
 
@@ -50,24 +50,37 @@ To check the machine connection state
 Edit the file `/etc/network/interfaces`
 On the `iface enp0s3 inet dhcp` change to 
 `iface enp0s3 inet static`
+
 `   address xxx.xxx.xxx.x`
+
 `   netmask xxxx.xxxx.xxx.xx`
+
 `   gateway xxx.xxx.xxx.xx`
 
-### 3. Install UFW (Uncomplicated Firewall)
+
+## 4. Install UFW (Uncomplicated Firewall)
+
 `apt install ufw`
+
 `ufw enable`
+
 `ufw status verbose`
 
+</br>
+
 `ufw default deny incoming`
+
 `ufw allow 4242`
+</br>
 
 `ufw status numbered`
+
 `ufw delete <rule-number> `
 
-### 4.User settings
-#### 4.1 Sudo
+## 5. Sudo
+
  `apt install sudo`
+
  `sudo --version`
 
  Add user name to sudo group
@@ -79,20 +92,7 @@ On the `iface enp0s3 inet dhcp` change to
  To see users that belong to group sudo
  `getent group sudo`
 
-### 4.1.2 Connecting user via SSH
- To get server ip 
- `ip addr show`
- `hostname -I`
- On other machine: 
- if on linux 
- `ssh <server-user>@<server ip> -p <ssh-port>`
- on windows need to install Ftty
-To exit connection
-`logout`
-`exit`
-
-From this point on the commands I typed is connected on the server trough a user in the sudo user group, so when needed higher level of access it'll have sudo as prefix
-#### 4.1.3 Configuring sudo policies 
+### 5.1. Configuring sudo policies 
 Create a path to save sudo logs
 `sudo mkdir /var/log/sudo`
 `sudo vim /etc/sudoers`
@@ -102,18 +102,44 @@ file changed
 
 Commands inserted on file 
 `Defaults editor=/usr/bin/vim`
+
 `Defaults passwd_tries=3`
+
 `Defaults badpass_message="Incorrect Password"`
+
 `Defaults logfile=/var/log/sudo/sudo.log`
+
 `Defaults requiretty`
+
 `Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"`
 
-### 4.2. Creating new users
+
+## 6.User settings
+### 6.1. Connecting user via SSH
+ To get server ip 
+ `ip addr show`
+ `hostname -I`
+ On other machine: 
+ if on linux 
+ `ssh <server-user>@<server ip> -p <ssh-port>`
+ on windows need to install Ftty
+To exit connection
+`logout`
+
+`exit`
+
+From this point on the commands I typed is connected on the server trough a user in the sudo user group, so when needed higher level of access it'll have sudo as prefix
+
+### 6.2. Creating new users
 __Users__:
 To check all users on system  - `cat /etc/passwd`
+
 To add new user - `sudo adduser <username>` -l for username | -c for fullname | -g for group id
+
 To look for a specific user `getent passwd`
+
 To delete user - `userdel -r <username>`
+
 Rename user `usermod -l <login-name> <old-name>` -u to change by the UID
 
 </br>
@@ -148,19 +174,40 @@ To change password of a user `psswrd <username>`
 </br>
 
 __Groups__
+
 To check groups - `cat /etc/group`
+
 groups a user is in - `groups <username>`
+
 get only Group id  - `id -g <username>` 
 create group - `sudo groupadd user42`
+
 add user to group - `sudo gpasswd -a <user> <group>`
+
 delete user from group - `sudo gpasswd -d <user> <group>`
+
 delete group - `sudo groupdel <groupname>`
 
 </br>
 
-###5. Configure CRON jobs
- 5.1. Shell script - all commands are on 
-### 7. others
+## 7. Configure CRON jobs
+
+ - Shell script - all commands are on the monitoring.sh
+ - Crontab
+    - list all cron jobs set `sudo crontab -l`
+    - edit cron jobs `sudo crontab -e`
+ - to manage cron service
+    `sudo systemctl enable cron.service`
+    `sudo systemctl start cron.service`
+    `sudo systemctl stop cron.service`
+    `sudo systemctl restart cron.service`
+    `sudo systemctl status cron.service`
+
+
+## 8. Bonus
+
+### 8.1 L
+## 7. others
  - Hostname
    - to change 
       -  `sudo hostnamectl set-hostname  <hostname>`

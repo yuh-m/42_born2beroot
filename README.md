@@ -90,9 +90,8 @@ The main topics on this project covers:
 ![Bonus](./img/bonus_partitions.PNG)
 
 </br>
-</br>
 
-### 3. Setting SSH (Secure Socket Shell)
+## 3. Setting SSH (Secure Socket Shell)
  - It's a network protocol that enables a secure way to access a machine over an unsecured network. It works by providing a strong password, and public key authentication method, creating encrypted data communication on an open network.
  https://www.techtarget.com/searchsecurity/definition/Secure-Shell
  - As part of the project. Set config file `/etc/ssh/sshd_config` to:
