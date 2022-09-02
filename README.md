@@ -117,7 +117,7 @@ The main topics on this project covers:
 
 ## 5. sudo
 - Sudo is a program to allow a sysadmin to give limited access to users and log root activity. 
-- Till now all the project was using the __root__ user, from now on the assigned user on sudo group can and run commands by using the prefix `sudo`, and it's possible to finish the configuration of a machine in a remote local.
+- Till now all the project was using the __root__ user, after this setup is possible to assign an user to sudo group can, and run commands by using the prefix `sudo`, and it's possible to finish the configuration of a machine in a remote local.
 </br>
 - https://www.sudo.ws/about/intro/
 - https://man7.org/linux/man-pages/man8/sudo.8.html
@@ -218,13 +218,40 @@ be set to 2.
 
 
 ## 8. BONUS - Setting wordpress
- - 
-- Framework required 
-    #### 8.1. Setting lighttpd 
 
+ - Wordpress is a open source system for Content Management System (CMS). Enabling a person to create a website without getting too deep in all the technical stuff
+    ### 8.1. Setting lighttpd 
+    - Lighttpd is an open source web server. 
+    - Basicaly a web server is responsible to manage all the HTTP requests from a client to a server.
+      - https://www.techtarget.com/whatis/definition/Web-server
+    - Installing lighttpd - https://www.how2shout.com/linux/how-to-install-lighttpd-web-server-on-debian-11-bullseye-or-ubuntu-20-04/
+    - configs are on `sudo vim /etc/lighttpd/lighttpd.conf`
+    
     ### 8.2. Setting MariaDB
+    - MariaBD is an open source Database.
+    - At least necessary to make the initial setup, create a admin user and a database where wordpress will be kept
+    - https://geekrewind.com/install-wordpress-on-ubuntu-16-04-lts-with-lighttpd-mariadb-and-php-7-1-support/
+     
     ### 8.3. Setting PHP
+    - https://tecadmin.net/how-to-install-php-on-debian-11/
+    - Several addittional steps was necessary to install php
+      - add sury as a safe site to download files (gnupg)
+      - install wget. It's similar to curl where it enables to download files 
+      - Also apt-key is deprecated, but on the tutorial I followed still uses. Later  I found the recommend way would be to use this, but I didn't tested
+       `wget -qO- https://packages.sury.org/php/apt.gpg | sudo tee /etc/apt/trusted.gpg.d/sury.gpg`
+    - Also additional packages may be necessary to run wordpress more smoothly -https://make.wordpress.org/hosting/handbook/server-environment/
+
+
     ### 8.4. Wordpress
+
+    https://www.inmotionhosting.com/support/edu/wordpress/install-wordpress-debian-10/
+
+    - After donwloading wordpress files 
+    - Next step is to configure the
+      - https://wordpress.org/support/article/how-to-install-wordpress/#step-3-set-up-wp-config-php
+      - very detailed explanation of this file - https://developer.wordpress.org/apis/wp-config-php/
+
+
     ### 8.5. Setting FTP 
 
 
