@@ -214,6 +214,8 @@ be set to 2.
     - https://www.cyberciti.biz/faq/linux-execute-cron-job-after-system-reboot/
     - https://linux.die.net/man/5/crontab
   
+  - to make sure its executable - rembember `chmod`
+  https://fideloper.com/user-group-permissions-chmod-apache
 </br>
 
 
