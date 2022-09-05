@@ -117,5 +117,3 @@ Otherwise:
 
 Restart lighttpd server
 `sudo systemctl start lighttpd`
-
-### 8.4. PHP

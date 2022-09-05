@@ -6,7 +6,8 @@ Create a snapshop - with the VM turned off
 
 Retrieve the state of the machine
     shalsum <virtual disk>.vdi
-'a'
+
+
 ### 2.2. General info after setup
 For giving information of OS
 ` cat /etc/os-release `
